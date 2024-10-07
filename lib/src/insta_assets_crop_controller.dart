@@ -133,9 +133,15 @@ class InstaAssetsCropController {
     previewAsset.dispose();
   }
 
+  double customRatio = 0;
   double get aspectRatio {
     assert(cropDelegate.cropRatios.isNotEmpty,
         'The list of supported crop ratios cannot be empty.');
+
+    if (cropRatioIndex.value == -1) {
+      return customRatio;
+    }
+
     return cropDelegate.cropRatios[cropRatioIndex.value];
   }
 
@@ -149,6 +155,24 @@ class InstaAssetsCropController {
   void nextCropRatio() {
     if (cropRatioIndex.value < cropDelegate.cropRatios.length - 1) {
       cropRatioIndex.value = cropRatioIndex.value + 1;
+    } else {
+      cropRatioIndex.value = 0;
+    }
+  }
+
+  void customCropRatio(AssetEntity asset) {
+    if (cropRatioIndex.value == -1) {
+      cropRatioIndex.value = 0;
+    } else {
+      customRatio = asset.width / asset.height;
+      cropRatioIndex.value = -1;
+    }
+  }
+
+  void originalCropRatio(AssetEntity asset) {
+    if (cropRatioIndex.value == -1) {
+      customRatio = asset.width / asset.height;
+      cropRatioIndex.value = -1;
     } else {
       cropRatioIndex.value = 0;
     }

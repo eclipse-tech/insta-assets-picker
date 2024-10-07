@@ -83,6 +83,7 @@ class CropViewerState extends State<CropViewer> {
             // if the selected asset changed, save the previous crop parameters state
             if (asset != _previousAsset && _previousAsset != null) {
               saveCurrentCropChanges();
+              widget.controller.originalCropRatio(asset);
             }
 
             _previousAsset = asset;
@@ -292,32 +293,29 @@ class _InnerCropViewState extends State<InnerCropView>
   }
 
   Widget _buildCropButton() {
-    return Opacity(
-      opacity: 0.6,
-      child: InstaPickerCircleIconButton(
-        onTap: () {
-          if (widget.controller.isCropViewReady.value) {
-            widget.controller.nextCropRatio();
-          }
-        },
-        theme: widget.theme?.copyWith(
-          buttonTheme: const ButtonThemeData(padding: EdgeInsets.all(2)),
-        ),
-        size: 32,
-        // if crop ratios are the default ones, build UI similar to instagram
-        icon:
-            widget.controller.cropDelegate.cropRatios == kDefaultInstaCropRatios
-                ? Transform.rotate(
-                    angle: 45 * math.pi / 180,
-                    child: Icon(
-                      widget.controller.aspectRatio == 1
-                          ? Icons.unfold_more
-                          : Icons.unfold_less,
-                    ),
-                  )
-                // otherwise simply display the selected aspect ratio
-                : Text(widget.controller.aspectRatioString),
+    return InstaPickerCircleIconButton(
+      onTap: () {
+        if (widget.controller.isCropViewReady.value) {
+          widget.controller.customCropRatio(widget.asset);
+        }
+      },
+      theme: widget.theme?.copyWith(
+        buttonTheme: const ButtonThemeData(padding: EdgeInsets.all(2)),
       ),
+      size: 35,
+      // if crop ratios are the default ones, build UI similar to instagram
+      icon: widget.controller.cropDelegate.cropRatios == kDefaultInstaCropRatios
+          ? Transform.rotate(
+              angle: 45 * math.pi / 180,
+              child: Icon(
+                widget.controller.aspectRatio == 1
+                    ? Icons.unfold_more
+                    : Icons.unfold_less,
+                color: Colors.white,
+              ),
+            )
+          // otherwise simply display the selected aspect ratio
+          : Text(widget.controller.aspectRatioString),
     );
   }
 

@@ -25,9 +25,9 @@ class InstaPickerCircleIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox.square(
       dimension: size,
-      child: ElevatedButton(
+      child: FilledButton(
         onPressed: onTap,
-        style: ElevatedButton.styleFrom(
+        style: FilledButton.styleFrom(
           shape: const CircleBorder(side: BorderSide.none),
           padding: theme?.buttonTheme.padding,
           backgroundColor: theme?.buttonTheme.colorScheme?.surface,

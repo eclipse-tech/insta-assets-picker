@@ -21,8 +21,8 @@ const _kExtendedCropViewPosition = 0.0;
 const _kScrollMultiplier = 1.5;
 
 const _kIndicatorSize = 20.0;
-const _kPathSelectorRowHeight = 50.0;
-const _kActionsPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 8);
+const _kPathSelectorRowHeight = 60.0;
+const _kActionsPadding = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
 
 typedef InstaPickerActionsBuilder = List<Widget> Function(
   BuildContext context,
@@ -328,7 +328,7 @@ class InstaAssetPickerBuilder extends DefaultAssetPickerBuilderDelegate {
                         ? textDelegate.accessiblePathName
                         : pathNameBuilder?.call(p.path) ?? p.path.name,
                     style: theme.textTheme.bodyLarge?.copyWith(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
@@ -421,6 +421,13 @@ class InstaAssetPickerBuilder extends DefaultAssetPickerBuilderDelegate {
                         ? '${textDelegate.confirm}'
                             ' (${p.selectedAssets.length}/${p.maxAssets})'
                         : textDelegate.confirm,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: p.isSelectedNotEmpty
+                          ? theme.colorScheme.primary
+                          : const Color(0x5917191C),
+                    ),
                   )
                 : _buildLoader(context, 10),
           );
@@ -509,15 +516,21 @@ class InstaAssetPickerBuilder extends DefaultAssetPickerBuilderDelegate {
                     height: topWidgetHeight,
                     child: AssetPickerAppBarWrapper(
                       appBar: AssetPickerAppBar(
+                        centerTitle: false,
                         backgroundColor: theme.appBarTheme.backgroundColor,
                         title: title != null
                             ? Text(
                                 title!,
                                 style: theme.appBarTheme.titleTextStyle,
+                                textAlign: TextAlign.start,
                               )
                             : null,
-                        leading: backButton(context),
+                        leading: Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: backButton(context),
+                        ),
                         actions: <Widget>[confirmButton(context)],
+                        actionsPadding: EdgeInsets.only(right: 8),
                       ),
                       body: DecoratedBox(
                         decoration: BoxDecoration(
