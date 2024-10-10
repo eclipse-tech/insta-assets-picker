@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
@@ -161,24 +160,22 @@ class InstaAssetsCropController {
     }
   }
 
-  double _calculateAspectRatio(width, height) {
-    int maxDimension = max(width, height);
-    int minDimension = min(width, height);
-    return minDimension / maxDimension;
+  double _calculateAspectRatio(AssetEntity asset) {
+    return asset.orientatedWidth / asset.orientatedHeight;
   }
 
   void customCropRatio(AssetEntity asset) {
     if (cropRatioIndex.value == -1) {
       cropRatioIndex.value = 0;
     } else {
-      customRatio = _calculateAspectRatio(asset.width, asset.height);
+      customRatio = _calculateAspectRatio(asset);
       cropRatioIndex.value = -1;
     }
   }
 
   void originalCropRatio(AssetEntity asset) {
     if (cropRatioIndex.value == -1) {
-      customRatio = _calculateAspectRatio(asset.width, asset.height);
+      customRatio = _calculateAspectRatio(asset);
       cropRatioIndex.value = -1;
     } else {
       cropRatioIndex.value = 0;
