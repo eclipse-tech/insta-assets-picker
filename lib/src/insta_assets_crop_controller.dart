@@ -18,6 +18,7 @@ class InstaAssetsExportData {
   const InstaAssetsExportData({
     required this.croppedFile,
     required this.selectedData,
+    this.isCropped = false,
   });
 
   /// The cropped file, can be null if the asset is not an image or if the
@@ -26,6 +27,9 @@ class InstaAssetsExportData {
 
   /// The selected data, contains the asset and it's crop values
   final InstaAssetsCropData selectedData;
+
+  /// Whether the asset was cropped
+  final bool isCropped;
 }
 
 /// Contains all the parameters of the exportation
@@ -299,7 +303,10 @@ class InstaAssetsCropController {
           sampledFile.delete();
 
           data.add(InstaAssetsExportData(
-              croppedFile: croppedFile, selectedData: list[i]));
+            croppedFile: croppedFile,
+            selectedData: list[i],
+            isCropped: cropRatioIndex.value == -1,
+          ));
         }
       }
 
